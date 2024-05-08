@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const apiKey = 'SUA_API_KEY_DO_TMDB'
+const apiKey = process.env.VUE_APP_API_KEY;
 
 export default {
   async searchMovies(query) {

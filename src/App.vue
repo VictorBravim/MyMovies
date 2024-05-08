@@ -1,26 +1,71 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div id="app">
+    <!-- Barra de Navegação -->
+    <nav>
+      <ul>
+        <li><router-link to="/">Home</router-link></li>
+        <li><router-link to="/favorites">Favorites</router-link></li>
+        <li><router-link to="/login">Login</router-link></li>
+      </ul>
+    </nav>
+
+    <!-- Conteúdo Principal -->
+    <main>
+      <router-view></router-view>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+      <p>&copy; 2024 Meu Site de Filmes</p>
+    </footer>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+  name: 'App'
 }
 </script>
 
 <style>
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: Arial, sans-serif;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+nav {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+}
+
+nav ul li {
+  margin-right: 1rem;
+}
+
+nav ul li a {
+  color: #fff;
+  text-decoration: none;
+}
+
+main {
+  flex-grow: 1;
+  padding: 1rem;
+}
+
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 1rem;
 }
 </style>
