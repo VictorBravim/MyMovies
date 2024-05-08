@@ -13,7 +13,7 @@ export default {
       })
       return response.data.results
     } catch (error) {
-      throw Error('Erro ao buscar filmes')
+      throw new Error('Erro ao buscar filmes')
     }
   },
   async getMovieDetails(movieId) {
@@ -25,7 +25,7 @@ export default {
       })
       return response.data
     } catch (error) {
-      throw Error('Erro ao obter detalhes do filme')
+      throw new Error('Erro ao obter detalhes do filme')
     }
   }
 }

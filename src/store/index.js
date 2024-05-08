@@ -12,25 +12,38 @@ export default new Vuex.Store({
     setUser(state, user) {
       state.user = user
     },
-    addFavorite(state, movie) {
+    logout(state) {
+      state.user = null
+    },
+    addToFavorites(state, movie) {
       state.favorites.push(movie)
     },
-    removeFavorite(state, movieId) {
+    removeFromFavorites(state, movieId) {
       state.favorites = state.favorites.filter(movie => movie.id !== movieId)
     }
   },
   actions: {
-    login({ commit }, user) {
-      commit('setUser', user)
+    async login({ commit }, { username, password }) {
+      try {
+        // Simular uma autenticação (substituir por uma chamada real para o backend)
+        if (username === 'user' && password === 'password') {
+          const user = { username }
+          commit('setUser', user)
+        } else {
+          throw new Error('Credenciais inválidas')
+        }
+      } catch (error) {
+        throw new Error('Erro ao fazer login')
+      }
     },
     logout({ commit }) {
-      commit('setUser', null)
+      commit('logout')
     },
     addToFavorites({ commit }, movie) {
-      commit('addFavorite', movie)
+      commit('addToFavorites', movie)
     },
     removeFromFavorites({ commit }, movieId) {
-      commit('removeFavorite', movieId)
+      commit('removeFromFavorites', movieId)
     }
   }
 })
