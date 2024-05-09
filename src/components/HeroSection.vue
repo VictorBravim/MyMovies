@@ -1,9 +1,16 @@
 <template>
   <div class="hero">
-    <!-- Carrossel de Filmes -->
     <div class="film-carousel" v-if="filmes.length > 0">
       <div class="carousel-track" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
         <div class="film-poster" v-for="filme in filmes" :key="filme.id">
+          <div class="film-details">
+            <h2>{{ filme.title }}</h2>
+            <p>{{ filme.overview }}</p>
+            <div class="extra-info">
+              <p><strong>Gêneros:</strong> {{ getGenres(filme) }}</p>
+              <p><strong>Nota:</strong> {{ filme.vote_average }}</p>
+            </div>
+          </div>
           <img :src="'https://image.tmdb.org/t/p/original' + filme.backdrop_path" :alt="filme.title" />
         </div>
       </div>
@@ -35,7 +42,7 @@ export default {
 
       try {
         const response = await axios.get(url);
-        this.filmes = response.data.results.slice(0, 5); // Pegar os primeiros 5 filmes populares
+        this.filmes = response.data.results.slice(0, 5);
         this.loading = false;
       } catch (error) {
         console.error('Erro ao buscar filmes populares:', error);
@@ -47,18 +54,23 @@ export default {
     },
     nextFilm() {
       this.currentIndex = (this.currentIndex + 1) % this.filmes.length;
+    },
+    getGenres(filme) {
+      if (filme && filme.genres) {
+        return filme.genres.map(genre => genre.name).join(', ');
+      }
+      return 'N/A';
     }
   }
 };
 </script>
 
 <style scoped>
-/* Estilos específicos do componente HeroSection */
 .hero {
   position: relative;
   width: 100%;
-  height: 100vh; /* Define a altura da hero como 100% da viewport */
-  overflow: hidden; /* Oculta conteúdo além da hero */
+  height: 100vh; 
+  overflow: hidden; 
 }
 
 .film-carousel {
@@ -74,7 +86,26 @@ export default {
 }
 
 .film-poster {
-  flex: 0 0 100%; /* Cada filme ocupa 100% da largura da tela */
+  position: relative;
+  flex: 0 0 100%; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 1.5em;
+}
+
+
+.film-details {
+  position: absolute;
+  text-align: center;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  max-width: 60%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .carousel-control {
@@ -106,10 +137,9 @@ export default {
   font-size: 18px;
 }
 
-/* Ajuste para as imagens no carrossel */
 .film-poster img {
-  width: 100%; /* Garante que a imagem ocupe toda a largura do contêiner */
-  height: 100%; /* Permite que a imagem mantenha sua proporção original */
-  object-fit: cover; /* Ajusta a imagem para cobrir o contêiner sem distorção */
+  width: 100%;
+  height: 100%; 
+  object-fit: cover;
 }
 </style>
