@@ -24,7 +24,7 @@ export default {
 #app {
   font-family: Arial, sans-serif;
   color: #fff;
-  background: #1D1E22;
+  background: #18181D;
 }
 
 ::-webkit-scrollbar {

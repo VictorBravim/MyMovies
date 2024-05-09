@@ -138,6 +138,7 @@ export default {
   width: 100%;
   height: auto;
   object-fit: cover;
+  border-radius: 5px;
 }
 
 .scale-up-enter-active,
@@ -152,7 +153,7 @@ export default {
 
 .scale-up-enter-to,
 .scale-up-leave {
-  transform: scale(1.0);
+  transform: scale(1);
 }
 
 .movie-title {
@@ -165,9 +166,10 @@ export default {
   font-size: 14px;
   text-align: center;
   padding: 15px;
-  margin: 0;
+  margin: 5px 5px 0px 5px;
   opacity: 0;
   transition: opacity 0.3s ease;
+  border-radius: 5px;
 }
 
 .film-hover {

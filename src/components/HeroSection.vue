@@ -11,11 +11,13 @@
     <div v-else class="loading-message">Carregando filmes...</div>
 
     <div class="film-details" v-if="filmes.length > 0">
-      <h2>{{ filmes[currentIndex].title }}</h2>
-      <p>{{ filmes[currentIndex].overview }}</p>
-      <div class="extra-info">
-        <p><strong>Gêneros:</strong> {{ getGenres(filmes[currentIndex]) }}</p>
-        <p><strong>Nota:</strong> {{ filmes[currentIndex].vote_average }}</p>
+      <div class="details">
+        <h2>{{ filmes[currentIndex].title }}</h2>
+        <p>{{ filmes[currentIndex].overview }}</p>
+        <div class="extra-info">
+          <p><strong>Gêneros:</strong> <span> {{ getGenres(filmes[currentIndex]) }} </span></p>
+          <p><strong>Nota:</strong> <span> {{ filmes[currentIndex].vote_average }} </span></p>
+        </div>
       </div>
     </div>
   </div>
@@ -42,7 +44,17 @@ export default {
 
       try {
         const response = await axios.get(url);
-        this.filmes = response.data.results.slice(0, 5);
+        const movies = response.data.results.slice(0, 5);
+
+        const filmesCompletos = await Promise.all(
+          movies.map(async (movie) => {
+            const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=${apiKey}&language=pt-BR`;
+            const movieDetailsResponse = await axios.get(movieDetailsUrl);
+            return movieDetailsResponse.data;
+          })
+        );
+
+        this.filmes = filmesCompletos;
         this.loading = false;
       } catch (error) {
         console.error('Erro ao buscar filmes populares:', error);
@@ -109,7 +121,7 @@ export default {
   top: 0;
   left: 0;
   width: 48%;
-  height: 100vh; 
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -119,14 +131,37 @@ export default {
   color: #fff;
 }
 
+.details {
+  margin-left: 20%
+}
+
 .film-details h2,
 .film-details p {
   text-align: left;
   margin-bottom: 10px;
+  width: 70%;
+}
+
+.film-details h2 {
+  font-size: 4.0em;
+  color: #FE0000;
+}
+
+.film-details p {
+  font-size: 1.1em;
+  color: #646464;
 }
 
 .extra-info {
   text-align: center;
+}
+
+.extra-info p {
+  color: #FE0000;
+}
+
+.extra-info span {
+  color: #c5c5c5;
 }
 
 .loading-message {
@@ -144,4 +179,3 @@ export default {
   object-fit: cover;
 }
 </style>
-
