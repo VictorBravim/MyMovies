@@ -1,25 +1,44 @@
 <template>
-    <div>
-      <h2>Results</h2>
-      <div v-if="movies.length === 0">No results found.</div>
-      <div v-else>
-        <div v-for="movie in movies" :key="movie.id">
-          <h3>{{ movie.title }}</h3>
-          <img :src="'https://image.tmdb.org/t/p/w500/' + movie.poster_path" alt="Movie Poster" />
-          <router-link :to="'/movie/' + movie.id">View Details</router-link>
-        </div>
-      </div>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    props: {
-      movies: {
-        type: Array,
-        default: () => []
+  <div>
+    <h2>Filmes Populares</h2>
+
+    <!-- Campo de pesquisa -->
+    <input type="text" v-model="query" placeholder="Buscar filmes...">
+    <button @click="searchMovies">Buscar</button>
+
+    <ul>
+      <li v-for="movie in movies" :key="movie.id">
+        {{ movie.title }}
+      </li>
+    </ul>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      movies: [],
+      query: ''
+    };
+  },
+  methods: {
+    async searchMovies() {
+      const apiKey = '9d613a549275367434c92bddbd15e9ae';
+      const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${this.query}`;
+
+      try {
+        const response = await axios.get(url);
+        this.movies = response.data.results;
+      } catch (error) {
+        console.error('Erro ao buscar filmes:', error);
       }
     }
+  },
+  async mounted() {
+    await this.searchMovies();
   }
-  </script>
-  
+};
+</script>
