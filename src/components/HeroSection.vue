@@ -3,21 +3,21 @@
     <div class="film-carousel" v-if="filmes.length > 0">
       <div class="carousel-track" :style="{ transform: `translateX(-${currentIndex * 100}%)` }">
         <div class="film-poster" v-for="filme in filmes" :key="filme.id">
-          <div class="film-details">
-            <h2>{{ filme.title }}</h2>
-            <p>{{ filme.overview }}</p>
-            <div class="extra-info">
-              <p><strong>Gêneros:</strong> {{ getGenres(filme) }}</p>
-              <p><strong>Nota:</strong> {{ filme.vote_average }}</p>
-            </div>
-          </div>
           <img :src="'https://image.tmdb.org/t/p/original' + filme.backdrop_path" :alt="filme.title" />
         </div>
       </div>
-      <button class="carousel-control prev" @click="prevFilm">&#10094;</button>
       <button class="carousel-control next" @click="nextFilm">&#10095;</button>
     </div>
     <div v-else class="loading-message">Carregando filmes...</div>
+
+    <div class="film-details" v-if="filmes.length > 0">
+      <h2>{{ filmes[currentIndex].title }}</h2>
+      <p>{{ filmes[currentIndex].overview }}</p>
+      <div class="extra-info">
+        <p><strong>Gêneros:</strong> {{ getGenres(filmes[currentIndex]) }}</p>
+        <p><strong>Nota:</strong> {{ filmes[currentIndex].vote_average }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -49,9 +49,6 @@ export default {
         this.loading = false;
       }
     },
-    prevFilm() {
-      this.currentIndex = (this.currentIndex - 1 + this.filmes.length) % this.filmes.length;
-    },
     nextFilm() {
       this.currentIndex = (this.currentIndex + 1) % this.filmes.length;
     },
@@ -69,8 +66,8 @@ export default {
 .hero {
   position: relative;
   width: 100%;
-  height: 100vh; 
-  overflow: hidden; 
+  height: 100vh;
+  overflow: hidden;
 }
 
 .film-carousel {
@@ -87,31 +84,14 @@ export default {
 
 .film-poster {
   position: relative;
-  flex: 0 0 100%; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
-  font-size: 1.5em;
-}
-
-
-.film-details {
-  position: absolute;
-  text-align: center;
-  padding: 20px;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  max-width: 60%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  flex: 0 0 100%;
 }
 
 .carousel-control {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  right: 10px;
   background-color: rgba(0, 0, 0, 0.5);
   color: #fff;
   font-size: 24px;
@@ -120,12 +100,33 @@ export default {
   cursor: pointer;
 }
 
-.carousel-control.prev {
-  left: 10px;
+.carousel-control.next {
+  display: block;
 }
 
-.carousel-control.next {
-  right: 10px;
+.film-details {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 48%;
+  height: 100vh; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+}
+
+.film-details h2,
+.film-details p {
+  text-align: left;
+  margin-bottom: 10px;
+}
+
+.extra-info {
+  text-align: center;
 }
 
 .loading-message {
@@ -139,7 +140,8 @@ export default {
 
 .film-poster img {
   width: 100%;
-  height: 100%; 
+  height: 100%;
   object-fit: cover;
 }
 </style>
+
