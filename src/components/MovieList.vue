@@ -3,15 +3,19 @@
     <div v-for="genre in genres" :key="genre.id">
       <h2>{{ genre.name }}</h2>
       <div class="carousel-container">
-        <div class="carousel">
+        <div class="carousel" :id="'carousel-' + genre.id">
           <div v-for="(chunk, index) in chunkedMoviesByGenre(genre.id)" :key="index" class="carousel-slide">
-            <div class="film" v-for="movie in chunk" :key="movie.id">
+            <div v-for="movie in chunk" :key="movie.id" class="film film-hover" @mouseover="showMovieTitle(movie)"
+              @mouseleave="hideMovieTitle(movie)">
               <img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" :alt="movie.title" />
+              <transition name="scale-up">
+                <p v-if="movie.showTitle" class="movie-title">{{ movie.title }}</p>
+              </transition>
             </div>
           </div>
         </div>
-        <button class="prev" @click="scrollCarousel(-1)">&#10094;</button>
-        <button class="next" @click="scrollCarousel(1)">&#10095;</button>
+        <button class="prev" @click="scrollCarousel(-1, genre.id)">&#10094;</button>
+        <button class="next" @click="scrollCarousel(1, genre.id)">&#10095;</button>
       </div>
     </div>
   </div>
@@ -53,9 +57,16 @@ export default {
     },
     async fetchMovies() {
       try {
-        const moviesPromises = this.genres.map(genre => this.fetchMoviesByGenre(genre.id));
-        const moviesArrays = await Promise.all(moviesPromises);
-        this.movies = moviesArrays.flat();
+        const moviesSets = await Promise.all(this.genres.map(genre => this.fetchMoviesByGenre(genre.id)));
+
+        const uniqueMovies = new Set();
+        moviesSets.forEach(movies => {
+          movies.forEach(movie => {
+            uniqueMovies.add(JSON.stringify(movie));
+          });
+        });
+
+        this.movies = Array.from(uniqueMovies).map(movie => JSON.parse(movie));
       } catch (error) {
         console.error('Erro ao buscar filmes:', error);
       }
@@ -64,13 +75,25 @@ export default {
       const filteredMovies = this.movies.filter(movie => movie.genre_ids.includes(genreId));
       const chunkSize = 5;
       const chunks = [];
+
       for (let i = 0; i < filteredMovies.length; i += chunkSize) {
-        chunks.push(filteredMovies.slice(i, i + chunkSize));
+        const chunk = filteredMovies.slice(i, i + chunkSize);
+        chunk.forEach(movie => {
+          movie.showTitle = false;
+        });
+        chunks.push(chunk);
       }
+
       return chunks;
     },
-    scrollCarousel(direction) {
-      const carousel = document.querySelector('.carousel');
+    showMovieTitle(movie) {
+    movie.showTitle = true;
+  },
+  hideMovieTitle(movie) {
+    movie.showTitle = false;
+  },
+    scrollCarousel(direction, genreId) {
+      const carousel = document.getElementById(`carousel-${genreId}`);
       if (carousel) {
         const scrollAmount = direction * (carousel.offsetWidth / 2);
         carousel.scrollLeft += scrollAmount;
@@ -107,7 +130,8 @@ export default {
 }
 
 .film {
-  width: 200px;
+  width: 250px;
+  padding: 5px;
 }
 
 .film img {
@@ -116,7 +140,47 @@ export default {
   object-fit: cover;
 }
 
-.prev, .next {
+.scale-up-enter-active,
+.scale-up-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.scale-up-enter,
+.scale-up-leave-to {
+  transform: scale(1);
+}
+
+.scale-up-enter-to,
+.scale-up-leave {
+  transform: scale(1.0);
+}
+
+.movie-title {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 14px;
+  text-align: center;
+  padding: 15px;
+  margin: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.film-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.film-hover:hover .movie-title {
+  opacity: 1;
+}
+
+.prev,
+.next {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
