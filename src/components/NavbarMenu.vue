@@ -15,7 +15,7 @@
   
   <style scoped>
   nav {
-    background-color: #333;
+    background-color: transparent;
     padding: 10px;
   }
   

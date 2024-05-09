@@ -26,4 +26,8 @@ export default {
   color: #fff;
   background: #1D1E22;
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+}
 </style>
