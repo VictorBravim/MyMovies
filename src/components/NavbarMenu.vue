@@ -73,4 +73,25 @@ a {
   color: white;
   text-decoration: none;
 }
+
+@media (max-width: 768px) {
+  .logo img {
+    height: 40px;
+    margin-right: 0px;
+  }
+
+  ul {
+    display: none;
+  }
+
+  button {
+    display: none; 
+  }
+
+  nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+}
 </style>

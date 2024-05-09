@@ -178,4 +178,36 @@ export default {
   height: 100%;
   object-fit: cover;
 }
+
+@media (max-width: 768px) {
+  .film-details {
+    top: 50%;
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: right;
+  }
+
+  .film-poster {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+  }
+
+  .carousel-control {
+    top: 40%
+  }
+
+  .details {
+    max-width: 100%;
+  }
+
+  .film-details h2 {
+    font-size: 2em;
+  }
+
+  .film-details p {
+    font-size: 0.75em;
+  }
+}
 </style>
