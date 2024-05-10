@@ -1,42 +1,41 @@
-# MyMovies
+# 🎬 MyMovies
 
-![image 1](https://github.com/VictorBravim/MyMovies/assets/122113588/ee5df3ff-89a3-4ef0-9455-e2dede170a91)
+![842shots_so](https://github.com/VictorBravim/MyMovies/assets/122113588/a7b37739-bc2c-4067-805e-922a131e5701)
 
-Este é um aplicativo Vue.js para visualização de filmes populares, construído usando a API do The Movie Database (TMDb). O aplicativo apresenta uma interface responsiva que exibe filmes em carrosséis horizontais agrupados por gênero.
+## 🚀 Overview
 
-## <code>Configuração do Projeto</code>
+This is a Vue.js application for viewing popular movies, built using The Movie Database (TMDb) API. The app features a responsive interface that displays movies in horizontal carousels grouped by genre.
 
-1. Clonar o Repositório:
-   ```
-   git clone https://github.com/VictorBravim/MyMovies.git
-   cd MyMovies
-   ```
+## 📋 Requirements
 
-2. Instalar Dependências:
-   ```
-   npm install
-   ```
+- Axios
+- TMDb API
 
-3. Rodar o Projeto:
-   ```
-   npm run serve
-   ```
+## 🔧 Installation
 
-## <code>Funcionalidades</code>
+1. Clone the Repository:
+   
+```
+git clone https://github.com/VictorBravim/MyMovies.git
+cd MyMovies
+```
 
-- Exibe filmes populares em um carrossel principal.
-- Detalhes dos filmes (título, resumo, gêneros, nota) são exibidos abaixo do carrossel principal.
-- Lista de filmes por gênero em carrosséis separados.
-- Responsivo: ajusta-se a diferentes tamanhos de tela.
+2. Install Dependencies:
+   
+```
+npm install
+```
 
-## <code>Tecnologias Utilizadas</code>
+3. Run the Project:
+   
+```
+npm run serve
+```
 
-- Vue.js
-- Axios (para requisições HTTP)
-- he Movie Database (TMDb) API
+## 🛠️ Project Structure
 
-## <code>Autor</code>
+- App.Vue
 
-Victor Bravim
-Contato: victorrafaelbravim@gmail.com
-GitHub: VictorBravim
+## 📄 License
+
+- This project is licensed under the [MIT License](LICENSE).
