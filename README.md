@@ -1,6 +1,6 @@
 # 🎬 MyMovies
 
-![842shots_so](https://github.com/VictorBravim/MyMovies/assets/122113588/a7b37739-bc2c-4067-805e-922a131e5701)
+![image 9](https://github.com/VictorBravim/MyMovies/assets/122113588/7f54e150-e9eb-4f44-91e2-72dd779793c0)
 
 ## 🚀 Overview
 
