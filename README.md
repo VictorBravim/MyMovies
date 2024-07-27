@@ -12,7 +12,7 @@ This is a Vue.js application for viewing popular movies, built using The Movie D
 - TMDb API
 
 ## 🔧 Installation
-
+ 
 1. Clone the Repository:
    
 ```
